@@ -1,11 +1,24 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import Profile, Tweet
+from .forms import TweetForm
 
 def home(request):
     if request.user.is_authenticated:
+        form = TweetForm(request.POST or None)
+        if request.method == 'POST':
+            if form.is_valid():
+                tweet = form.save(commit=False)
+                tweet.user = request.user
+                tweet.save()
+                messages.success(request, ("You tweet has been posted"))
+                return redirect('home')
+
         tweets = Tweet.objects.all().order_by("-created_at")
-    return render(request, 'home.html', {"tweets":tweets})
+        return render(request, 'home.html', {"tweets":tweets, "form":form})
+    else:
+        tweets = Tweet.objects.all().order_by("-created_at")
+        return render(request, 'home.html', {"tweets":tweets})
 
 def profile_list(request):
     if request.user.is_authenticated:
