@@ -19,6 +19,10 @@
             </div>
             <div class="col-4">
               <br/><br/><br/><br/>
+              {% if profile.profile_image %}
+                <img src='{{profile.profile_image.url}}' style="width:100px; height:100px; border-radius: 10%;">
+                <br/><br/>
+              {% endif %}
               <div class="card">
                 <h5 class="card-header">Follows</h5>
                 <div class="card-body">
@@ -53,11 +57,14 @@
                   Follow @{{profile.user.username|lower}}
                 </button>
                 {% endif %}
-              </form>
+              </form><br/>
+              {% if request.user.id == profile.user.id %}
+                <a href="{% url 'update_user' %}" class="btn btn-secondary">Update Profile</a>
+              {% endif %}
             </div>
-        </div>
+        </div>  
     </div>
-
+ 
 
 {% endif %}
 
