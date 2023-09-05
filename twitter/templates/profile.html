@@ -24,6 +24,12 @@
                           <div class="col-10">
                             <strong>{{tweet.user}}</strong><br/>
                             {{tweet.body}}<br/><br/>
+                            {{ tweet.number_of_likes }} Likes -
+                            {% if user in tweet.likes.all %}
+                                <a href={% url 'tweet_like' tweet.id %}>Unlike</a> <br/>
+                            {% else %}
+                                <a href={% url 'tweet_like' tweet.id %}>Like</a> <br/>
+                            {% endif %}
                             {{tweet.created_at}}
                           </div>
                         </div>
