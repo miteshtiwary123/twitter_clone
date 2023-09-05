@@ -23,10 +23,15 @@ class TweetForm(forms.ModelForm):
 
 class ProfilePicForm(forms.ModelForm):
     profile_image = forms.ImageField(label='profile picture')
+    profile_bio = forms.CharField(label="Profile Bio", widget=forms.Textarea(attrs={'class':'form-control', 'placeholder':'Profile Bio'}))
+    homepage_link = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Website Link'}))
+    facebook_link = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Facebook Link'}))
+    instagram_link = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Instagram Link'}))
+    linkedin_link = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Linkedin Link'}))
 
     class Meta:
         model = Profile 
-        fields = ('profile_image',)
+        fields = ('profile_image', 'profile_bio', 'homepage_link', 'facebook_link', 'instagram_link', 'linkedin_link')
 
 
 class SignUpform(UserCreationForm):
@@ -62,6 +67,7 @@ class UserProfileForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email']  # Include the fields you want to update
+
 
     def __init__(self, *args, **kwargs):
         super(UserProfileForm, self).__init__(*args, **kwargs)

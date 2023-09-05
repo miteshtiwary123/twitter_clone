@@ -46,6 +46,28 @@
                 <img src='{{profile.profile_image.url}}' width=200 height=200 class="roundrd-circle">
                 <br/><br/>
               {% endif %}
+
+              {% if profile.homepage_link %}
+                <a href="{{ profile.homepage_link }}" target="new"><i class="fa-solid fa-link" style="color:black; text-shadow: 0 0 20px rgba(74, 144, 226, 0.8);"></i></a>
+              {% endif %} &nbsp;
+
+              {% if profile.facebook_link %}
+                <a href="{{ profile.facebook_link }}" target="new"><i class="fa-brands fa-facebook-f" style="color:black; text-shadow: 0 0 10px rgba(74, 144, 226, 0.8);"></i></a>
+              {% endif %} &nbsp;
+
+              {% if profile.instagram_link %}
+                <a href="{{ profile.instagram_link }}" target="new"><i class="fa-brands fa-instagram" style="color:black; text-shadow: 0 0 10px rgba(74, 144, 226, 0.8);"></i></a>
+              {% endif %} &nbsp;
+
+              {% if profile.linkedin_link %}
+                <a href="{{ profile.linkedin_link }}" target="new"><i class="fa fa-linkedin" aria-hidden="true" style="color:black; text-shadow: 0 0 10px rgba(74, 144, 226, 0.8);"></i></a>
+              {% endif %}<br/><br/>
+
+              {% if profile.profile_bio %}
+                <p align="justify">{{ profile.profile_bio}}</p>
+              {% endif %}
+
+              <br/><br/>
               <div class="card">
                 <h5 class="card-header">Follows</h5>
                 <div class="card-body">
