@@ -131,3 +131,10 @@ def tweet_like(request, pk):
         messages.success(request, ("You must be logged in to see this page."))
         return redirect('home') 
     
+def tweet_show(request, pk):
+    tweet = get_object_or_404(Tweet, id=pk)
+    if tweet:
+        return render(request, "show_tweet.html", {"tweet":tweet})
+    else:
+        messages.success(request, ("This tweet does not exist."))
+        return redirect('home') 
