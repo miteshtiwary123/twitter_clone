@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import Profile, Tweet
-from .forms import TweetForm, SignUpform, UserProfileForm
+from .forms import TweetForm, SignUpform, UserProfileForm, ProfilePicForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
@@ -98,13 +98,22 @@ def register_user(request):
 def update_user(request):
     if request.user.is_authenticated:
         current_user = User.objects.get(id=request.user.id)
-        form = UserProfileForm(request.POST or None, instance=current_user)
-        if form.is_valid():
-            form.save()
+        profile_user = Profile.objects.get(user__id=request.user.id)
+
+        user_form = UserProfileForm(request.POST or None, instance=current_user)
+        profile_form = ProfilePicForm(request.POST or None, request.FILES or None, instance=profile_user)
+        if user_form.is_valid() and profile_form.is_valid():
+            print("Form is valid")
+            user_form.save()
+            profile_form.save()
             login(request, current_user)
             messages.success(request, ("Your profile is updated successfully."))
             return redirect('home') 
-        return render(request, 'update_user.html', {"form":form})
+        else:
+            print("User Form Errors:", user_form.errors)
+            print("Profile Form Errors:", profile_form.errors)
+
+        return render(request, 'update_user.html', {"user_form":user_form, "profile_form":profile_form})
     else:
         messages.success(request, ("You must be logged in to see this page."))
         return redirect('home') 
