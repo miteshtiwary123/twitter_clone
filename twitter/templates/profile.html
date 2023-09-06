@@ -30,7 +30,11 @@
                             {% else %}
                                 <a href={% url 'tweet_like' tweet.id %}><i class="fa fa-heart-o" style="color:red"></i></a>
                             {% endif %}&nbsp;
-                            <a href="{% url 'tweet_show' tweet.id %}"><i class="fa-solid fa-share" style="color:grey"></i></a>
+                            <a href="{% url 'tweet_show' tweet.id %}"><i class="fa-solid fa-share" style="color:grey"></i></a> &nbsp;
+                            {% if request.user.username == profile.user.username %}
+                              <a href="{% url 'delete_tweet' tweet.id %}"><i class="fa fa-trash" style="color:grey"></i></a> &nbsp;
+                              <a href="{% url 'edit_tweet' tweet.id %}"><i class="fa fa-edit" style="color:grey"></i></a>
+                            {% endif %}
                             <br/>
                             {{tweet.created_at}}
                           </div>
@@ -72,12 +76,15 @@
                 <h5 class="card-header">Follows</h5>
                 <div class="card-body">
                   <p class="card-text">
-                    {% for following in profile.follows.all %}
+                    {% for following in profile.follows.all|slice:3 %}
                         <a href="{% url 'profile' following.user.id %}">@{{ following }} </a>
                         &nbsp;<a href="{% url 'unfollow' following.user.id %}"><i class="fa fa-circle-minus small" style="color:black"></i></a>
                         <br/>
                     {% endfor %}
                   </p>
+                </div>
+                <div class="card-footer">
+                  <a href="{% url 'follows' profile.user.id %}" class="btn btn-sm btn-secondary">See All...</a>
                 </div>
               </div>
               <br/><br/>
@@ -86,7 +93,7 @@
                 <h5 class="card-header">Followed By</h5>
                 <div class="card-body">
                   <p class="card-text">
-                    {% for following in profile.followed_by.all %}
+                    {% for following in profile.followed_by.all|slice:3 %}
                         <a href="{% url 'profile' following.user.id %}">@{{ following }} </a>
                         {% if following in profile.follows.all %}
                           &nbsp;&nbsp;<a href="{% url 'unfollow' following.user.id %}"><i class="fa fa-user-minus small" style="color:black"></i></a>
@@ -96,7 +103,11 @@
 
                         <br/>
                     {% endfor %}
+                    <br/>
                   </p>
+                </div>
+                <div class="card-footer">
+                  <a href="{% url 'followers' profile.user.id %}" class="btn btn-sm btn-secondary">See All...</a>
                 </div>
               </div>
               <br/>
