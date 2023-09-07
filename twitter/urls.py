@@ -17,4 +17,6 @@ urlpatterns = [
     path('follow/<int:pk>', views.follow, name="follow"),
     path('delete_tweet/<int:pk>', views.delete_tweet, name="delete_tweet"),
     path('edit_tweet/<int:pk>', views.edit_tweet, name="edit_tweet"),
+    path('search/', views.search, name='search'),
+    path('search_user/', views.search_user, name='search_user'),
 ]
